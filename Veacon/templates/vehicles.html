@@ -1,0 +1,52 @@
+{% extends "blank.html" %}
+{% load static %}
+
+{% block title %}Veículos{% endblock %}
+
+{% block contentpage %}
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Veículos</h1>
+<!--    <p class="mb-4">Alertas disparados</p>-->
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+<!--      <div class="card-header py-3">-->
+<!--        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>-->
+<!--      </div>-->
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Proprietário</th>
+                <th>Modelo/Cor</th>
+                <th>Placa</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Proprietário</th>
+                <th>Modelo/Cor</th>
+                <th>Placa</th>
+              </tr>
+            </tfoot>
+            <tbody>
+            {% for vehicle in vehicles %}
+              <tr>
+                <td>{% for user in vehicle.users.all %} {{user.user}} {% endfor %}</td>
+                <td>{{vehicle.brand}}-{{vehicle.color}}</td>
+                <td>{{vehicle.plaque}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+
+</body>
+
+</html>

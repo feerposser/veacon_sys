@@ -1,0 +1,61 @@
+{% extends "blank.html" %}
+{% load static %}
+
+{% block title %}Alertas{% endblock %}
+
+{% block contentpage %}
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Alertas</h1>
+<!--    <p class="mb-4">Alertas disparados</p>-->
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+<!--      <div class="card-header py-3">-->
+<!--        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>-->
+<!--      </div>-->
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Placa</th>
+                <th>Modelo/Cor</th>
+                <th>Proprietário</th>
+                <th>Telefone</th>
+                <th>Data/Hora</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Placa</th>
+                <th>Modelo/Cor</th>
+                <th>Proprietário</th>
+                <th>Telefone</th>
+                <th>Data/Hora</th>
+                <th>Status</th>
+              </tr>
+            </tfoot>
+            <tbody>
+            {% for alert in alerts %}
+              <tr>
+                <td>{{alert.watchpost_fk.vehicle.plaque}}</td>
+                <td>{{alert.watchpost_fk.vehicle.model}}-{{alert.watchpost_fk.vehicle.color}}</td>
+                <td>{% for user in alert.watchpost_fk.vehicle.users.all %} {{user}} {% endfor %}</td>
+                <td>{% for user in alert.watchpost_fk.vehicle.users.all %} {{user.phone}} {% endfor %}</td>
+                <td>{{alert.hour}}</td>
+                <td>{{alert.status}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+
+</body>
+
+</html>
