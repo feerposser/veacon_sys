@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% if data %}
+
+{% block contentpage %}
+
+<div class="row">
+
+    {% if data.vehicles %}
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <a href="/vehicles">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Veículos
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.vehicles }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-car fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    {% endif %}
+
+    {% if data.alerts %}
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <a href="/alerts">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Alertas
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.alerts }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    {% endif %}
+
+    {% if data.beacons %}
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <a href="/beacons">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Beacons
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.beacons }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    {% endif %}
+
+    {% if data.watchposts %}
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <a href="/watchposts">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Monitoramentos
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ data.watchposts }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% endif %}

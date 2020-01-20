@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 
 from .forms import LoginForm
+from vehicle.manage_data import count_vehicles
+from alert.manage_data import count_alerts
+from beacon.manage_data import count_beacons
+from watchpost.manage_data import count_watchposts
 
 
 def log_in(request):
@@ -30,5 +34,26 @@ def log_out(request):
 
 
 @login_required(login_url='/login/')
-def blank(request):
-    return render(request, 'blank.html')
+def index(request):
+    data = {}
+
+    try:
+        vehicles = count_vehicles(request.user)
+        alerts = count_alerts(request.user)
+        beacons = count_beacons(request.user)
+        watchposts = count_watchposts(request.user)
+
+        if vehicles:
+            data['vehicles'] = vehicles
+        if alerts:
+            data['alerts'] = alerts
+        if beacons:
+            data['beacons'] = beacons
+        if watchposts:
+            data['watchposts'] = watchposts
+
+    except Exception as e:
+        print(e)
+        return request(request, 'index.html')
+
+    return render(request, 'index.html', {'data': data})

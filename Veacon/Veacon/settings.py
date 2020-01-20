@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'u3&ubv2f)_#0+mye4*z!178+9arm%x8_e7*q!n+(xv!bchu+_f'
 
-DEBUG = os.getenv('DJANGO_DEBUG', True)
+DEBUG = os.getenv('DEBUG', True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -65,6 +65,13 @@ TEMPLATES = [
         },
     },
 ]
+
+# REST Framework config for no BrowsableAPIRenderer
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
 
 WSGI_APPLICATION = 'Veacon.wsgi.application'
 
@@ -116,7 +123,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static_cdn/'
+
+if os.environ.get('DEBUG', False):
+    STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
 STATICFILES_DIRS = [
     BASE_DIR+STATIC_URL,

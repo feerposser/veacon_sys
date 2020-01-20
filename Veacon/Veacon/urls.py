@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 from user_veacon import views as user
 from alert import views as alert
 from vehicle import views as vehicle
@@ -27,5 +30,5 @@ urlpatterns = [
     path('logout/', user.log_out),
     path('alerts/', alert.alerts),
     path('vehicles/', vehicle.vehicles),
-    path('', user.blank, name='index'),
-]
+    path('', user.index, name='index'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
