@@ -125,7 +125,7 @@ USE_TZ = True
 
 STATIC_URL = '/static_sys/'
 
-if os.environ.get('DEBUG', False):
+if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
 STATICFILES_DIRS = [
