@@ -1,5 +1,6 @@
 django==2.2.7
 djangorestframework==3.10.3
-pubnub>=4.1.7
+cbor2==4
+pubnub
 gunicorn
 requests
