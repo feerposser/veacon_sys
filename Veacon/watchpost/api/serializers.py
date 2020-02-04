@@ -15,4 +15,4 @@ class WatchpostSerializer(ModelSerializer):
 
     class Meta:
         model = WatchpostModel
-        fields = ('id', 'user_veacon', 'gateway_beacon', 'beacon', 'vehicle', 'rssi', 'obs')
+        fields = ('id', 'user_veacon', 'gateway_beacon', 'beacon', 'vehicle', 'rssi_max', 'rssi_min', 'obs')

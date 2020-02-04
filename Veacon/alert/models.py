@@ -14,7 +14,7 @@ class AlertModel(models.Model):
     obs = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.date) + " - " + str(self.hour)
+        return str(self.watchpost_fk.vehicle.plaque) + " - " + str(self.date) + ":" + str(self.hour)
 
     class Meta:
         verbose_name = "Alerta"
