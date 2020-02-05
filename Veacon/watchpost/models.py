@@ -22,10 +22,8 @@ class WatchpostModel(models.Model):
     start_hour = models.TimeField(auto_now=True)
     end_date = models.DateField(null=True, blank=True)
     end_hour = models.TimeField(null=True, blank=True)
-    rssi_max = models.FloatField(null=True, blank=True, help_text="RSSI máximo da primeira bateria de scanner",
-                                 verbose_name="RSSI máximo")
-    rssi_min = models.FloatField(null=True, blank=True, help_text="RSSI mínimo da primeira bateria de scanner",
-                                 verbose_name="RSSI mínimo")
+    rssi_far = models.FloatField(null=True, blank=True, help_text="RSSI mais distante", verbose_name="RSSI distante")
+    rssi_near = models.FloatField(null=True, blank=True, help_text="RSSI mais próximo", verbose_name="RSSI próximo")
     obs = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     last_update = models.DateTimeField(null=True, blank=True, help_text="Não mexer")

@@ -16,6 +16,9 @@ class AlertModel(models.Model):
     def __str__(self):
         return str(self.watchpost_fk.vehicle.plaque) + " - " + str(self.date) + ":" + str(self.hour)
 
+    def get_date_hour(self):
+        return self.date.strftime("%m/%d/%Y") + self.hour.strftime('%H:%M')
+
     class Meta:
         verbose_name = "Alerta"
         verbose_name_plural = "Alertas"

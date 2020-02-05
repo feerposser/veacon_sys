@@ -4,7 +4,7 @@ from .models import WatchpostModel
 
 
 class WatchpostAdmin(admin.ModelAdmin):
-    readonly_fields = ('id', 'last_update',)  # 'rssi_max', 'rssi_min',
+    readonly_fields = ('id', 'last_update',)  # 'rssi_far', 'rssi_near',
     list_display = ('id', '__str__')
 
 
