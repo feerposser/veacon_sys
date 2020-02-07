@@ -49,7 +49,7 @@ class PubSubManager:
         try:
             message = {
                 "sender": pnconfig.uuid,
-                "beacon_namespace": eddy_namespace,
+                "eddy_namespace": eddy_namespace,
                 "operation": operation,
                 "gateway_id": gateway_id
             }

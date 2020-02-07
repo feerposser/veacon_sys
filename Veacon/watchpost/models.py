@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from gateway_beacon.models import GatewayBeaconModel
 from vehicle.models import VehicleModel
@@ -31,16 +32,19 @@ class WatchpostModel(models.Model):
     def __str__(self):
         return str(self.start_date) + " - " + self.vehicle.plaque
 
+    def clean(self):
+        if self.status == "A":
+            if WatchpostModel.objects.filter(beacon=self.beacon, status="A").exists():
+                raise ValidationError("Beacon em uso")
+        super(WatchpostModel, self).clean()
+
+    def full_clean(self, exclude=None, validate_unique=True):
+        return self.clean()
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        """
-        Publica o monitoramento no canal pub sub do veacon e persiste os dados no banco
-        :param force_insert:
-        :param force_update:
-        :param using:
-        :param update_fields:
-        :return:
-        """
+        """Publica o monitoramento no canal pub sub do veacon e persiste os dados no banco"""
+
         PubSubManager().publish_in_gateway_channel(self.beacon.eddy_namespace, "add", self.gateway_beacon.id)
         super(WatchpostModel, self).save()
 

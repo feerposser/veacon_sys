@@ -12,8 +12,8 @@ from watchpost.manage_data import WatchpostManager
 
 
 class WatchpostViewSet(ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
     serializer_class = WatchpostSerializer
 
     def get_queryset(self):
