@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 from gateway_beacon.models import GatewayBeaconModel
 from vehicle.models import VehicleModel
@@ -12,6 +12,7 @@ from utils.pubnub import PubSubManager
 class WatchpostModel(models.Model):
     STATUS_CHOICES = (
         ('A', 'Ativo'),
+        ('P', 'Processando'),
         ('I', 'Invativo')
     )
 
@@ -33,9 +34,41 @@ class WatchpostModel(models.Model):
         return str(self.start_date) + " - " + self.vehicle.plaque
 
     def clean(self):
-        if self.status == "A":
-            if WatchpostModel.objects.filter(beacon=self.beacon, status="A").exists():
-                raise ValidationError("Beacon em uso")
+        """
+        Verifica se o beacon não está sendo usado por outro monitoramento
+        Verifica se o veículo não está sendo usado por outro monitoramento
+        """
+
+        if self.status == "A" or self.status == "P":
+
+            if WatchpostModel.objects.filter(status="A",
+                                             beacon=self.beacon,
+                                             vehicle=self.vehicle).exclude(id=self.id).exists():
+                error_message = "Erro: "
+
+                try:
+                    vehicle = WatchpostModel.objects.filter(status="A", vehicle=self.vehicle).first()
+                    if vehicle:
+                        error_message += "Veículo %s sendo usado no monitoramento %s. " % (
+                            vehicle.vehicle, vehicle.id
+                        )
+                    del vehicle
+                except ObjectDoesNotExist:
+                    pass
+
+                try:
+                    watchpost = WatchpostModel.objects.filter(status="A", beacon=self.beacon).first()
+                    if watchpost:
+                        error_message += "Beacon %s sendo usado no monitoramento %s." % (
+                            watchpost.beacon, watchpost.id
+                        )
+                    del watchpost
+                except ObjectDoesNotExist:
+                    pass
+
+                if error_message:
+                    raise ValidationError(error_message)
+
         super(WatchpostModel, self).clean()
 
     def full_clean(self, exclude=None, validate_unique=True):
@@ -45,7 +78,14 @@ class WatchpostModel(models.Model):
              update_fields=None):
         """Publica o monitoramento no canal pub sub do veacon e persiste os dados no banco"""
 
-        PubSubManager().publish_in_gateway_channel(self.beacon.eddy_namespace, "add", self.gateway_beacon.id)
+        # todo : repensar status. Ativo, inativo, em processamento
+
+        operation = "rm"
+
+        if self.status == "A":
+            operation = "add"
+
+        PubSubManager().publish_in_gateway_channel(self.beacon.eddy_namespace, operation, self.gateway_beacon.id)
         super(WatchpostModel, self).save()
 
     class Meta:

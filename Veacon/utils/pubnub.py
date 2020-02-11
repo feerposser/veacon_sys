@@ -47,6 +47,9 @@ class PubSubManager:
         :return:
         """
         try:
+            assert operation == "add" or operation == "rm", \
+                "operation not equals to 'add' or 'rm'. '%s' instead" % operation
+
             message = {
                 "sender": pnconfig.uuid,
                 "eddy_namespace": eddy_namespace,
@@ -65,7 +68,7 @@ class PubSubManager:
         except Exception as e:
             print(e)
 
-
+#
 # pubnub.add_listener(MySubscribeCallback())
 # pubnub.subscribe().channels(channel).execute()
 # print("Listening %s pubnub channel" % channel)
