@@ -80,14 +80,16 @@ class WatchpostModel(models.Model):
 
         # todo : repensar status. Ativo, inativo, em processamento
 
-        operation = "rm"
+        operation = "proc"
 
         if self.status == "A":
             operation = "add"
+        elif self.status == "I":
+            operation = "rm"
 
         PubSubManager().publish_in_gateway_channel(self.beacon.eddy_namespace, operation, self.gateway_beacon.id)
         super(WatchpostModel, self).save()
 
     class Meta:
         verbose_name = "Monitoramento"
-        verbose_name_plural = "Monitoramenros"
+        verbose_name_plural = "Monitoramentos"
