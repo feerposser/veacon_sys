@@ -23,6 +23,8 @@ class WatchpostViewSet(ModelViewSet):
         print("-------------------------------------------------------------------------------------------------------")
         print(kwargs)
         print(request.data)
+        for r in request:
+            print(r)
 
 
 class WatchpostGatewayAPIView(APIView):
