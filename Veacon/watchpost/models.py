@@ -86,7 +86,8 @@ class WatchpostModel(models.Model):
         elif self.status == "I":
             operation = "rm"
 
-        PubSubManager().publish_in_gateway_channel(self.beacon.eddy_namespace, operation, self.gateway_beacon.id)
+        PubSubManager().publish_in_gateway_channel(self.id, self.beacon.eddy_namespace,
+                                                   operation, self.gateway_beacon.id)
         super(WatchpostModel, self).save()
 
     class Meta:

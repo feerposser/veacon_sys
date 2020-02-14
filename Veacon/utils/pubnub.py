@@ -37,7 +37,7 @@ class PubSubManager:
             print('deu errado a publicação')
             pass  # error
 
-    def publish_in_gateway_channel(self, eddy_namespace, operation, gateway_id, content=None):
+    def publish_in_gateway_channel(self, id, eddy_namespace, operation, gateway_id, content=None):
         """
         Publica no canal de um gateway
         :param eddy_namespace: Beacon que está sendo mirado
@@ -51,6 +51,7 @@ class PubSubManager:
                 "operation not equals to 'add' or 'rm' or 'proc'. '%s' instead" % operation
 
             message = {
+                "id": id,
                 "sender": pnconfig.uuid,
                 "eddy_namespace": eddy_namespace,
                 "operation": operation,
