@@ -37,7 +37,7 @@ class PubSubManager:
             print('deu errado a publicação')
             pass  # error
 
-    def publish_in_gateway_channel(self, id, eddy_namespace, operation, gateway_id, content=None):
+    def publish_in_gateway_channel(self, id, eddy_namespace, gateway_id, status, content=None):
         """
         Publica no canal de um gateway
         :param eddy_namespace: Beacon que está sendo mirado
@@ -47,15 +47,13 @@ class PubSubManager:
         :return:
         """
         try:
-            assert operation in ("add", "rm"), \
-                "operation not equals to 'add' or 'rm'. '%s' instead" % operation
 
             message = {
                 "id": id,
                 "sender": pnconfig.uuid,
                 "eddy_namespace": eddy_namespace,
-                "operation": operation,
-                "gateway_id": gateway_id
+                "gateway_id": gateway_id,
+                "status": status
             }
 
             if content:

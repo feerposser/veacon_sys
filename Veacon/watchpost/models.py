@@ -78,13 +78,8 @@ class WatchpostModel(models.Model):
              update_fields=None):
         """Publica o monitoramento no canal pub sub do veacon e persiste os dados no banco"""
 
-        if self.status == "P":
-            operation = "add"
-        elif self.status == "I":
-            operation = "rm"
-
         PubSubManager().publish_in_gateway_channel(self.id, self.beacon.eddy_namespace,
-                                                   operation, self.gateway_beacon.id)
+                                                   self.gateway_beacon.id, self.status)
         super(WatchpostModel, self).save()
 
     class Meta:
