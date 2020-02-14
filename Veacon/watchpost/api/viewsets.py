@@ -19,6 +19,11 @@ class WatchpostViewSet(ModelViewSet):
     def get_queryset(self):
         return WatchpostModel.objects.filter(status='A')
 
+    def partial_update(self, request, *args, **kwargs):
+        print("-------------------------------------------------------------------------------------------------------")
+        print(kwargs)
+        print(request.data)
+
 
 class WatchpostGatewayAPIView(APIView):
     permission_classes = [IsAuthenticated]

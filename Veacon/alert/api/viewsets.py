@@ -39,3 +39,4 @@ class AlertViewSet(ModelViewSet):
             return Response({a.args})
         except Exception as e:
             return Response({e.args[0]})
+
