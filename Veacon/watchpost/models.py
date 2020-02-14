@@ -81,7 +81,6 @@ class WatchpostModel(models.Model):
         # todo : repensar status. Ativo, inativo, em processamento
 
         operation = "proc"
-
         if self.status == "A":
             operation = "add"
         elif self.status == "I":

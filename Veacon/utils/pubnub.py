@@ -47,8 +47,8 @@ class PubSubManager:
         :return:
         """
         try:
-            assert operation == "add" or operation == "rm", \
-                "operation not equals to 'add' or 'rm'. '%s' instead" % operation
+            assert operation in ("add", "rm", "proc"), \
+                "operation not equals to 'add' or 'rm' or 'proc'. '%s' instead" % operation
 
             message = {
                 "sender": pnconfig.uuid,
