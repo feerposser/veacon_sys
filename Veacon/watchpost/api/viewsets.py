@@ -17,14 +17,7 @@ class WatchpostViewSet(ModelViewSet):
     serializer_class = WatchpostSerializer
 
     def get_queryset(self):
-        return WatchpostModel.objects.filter(status='A')
-
-    def partial_update(self, request, *args, **kwargs):
-        print("-------------------------------------------------------------------------------------------------------")
-        print(kwargs)
-        print(request.data)
-        for r in request:
-            print(r)
+        return WatchpostModel.objects.all()
 
 
 class WatchpostGatewayAPIView(APIView):
