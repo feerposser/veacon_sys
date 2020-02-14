@@ -78,10 +78,7 @@ class WatchpostModel(models.Model):
              update_fields=None):
         """Publica o monitoramento no canal pub sub do veacon e persiste os dados no banco"""
 
-        # todo : repensar status. Ativo, inativo, em processamento
-
-        operation = "proc"
-        if self.status == "A":
+        if self.status == "P":
             operation = "add"
         elif self.status == "I":
             operation = "rm"
