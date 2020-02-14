@@ -12,12 +12,24 @@ from watchpost.manage_data import WatchpostManager
 
 
 class WatchpostViewSet(ModelViewSet):
-    # permission_classes = [IsAuthenticated]
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     serializer_class = WatchpostSerializer
 
     def get_queryset(self):
-        return WatchpostModel.objects.all()
+        queryset = WatchpostModel.objects.all()
+
+        status = self.request.query_params.get("status", None)
+        gateway_id = self.request.query_params.get("gateway_id", None)
+
+        print(status, gateway_id)
+
+        if status:
+            queryset = queryset.filter(status=status)
+        if gateway_id:
+            queryset = queryset.filter(gateway_beacon__id=gateway_id)
+
+        return queryset
 
 
 class WatchpostGatewayAPIView(APIView):

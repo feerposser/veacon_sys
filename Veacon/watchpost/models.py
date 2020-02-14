@@ -13,7 +13,7 @@ class WatchpostModel(models.Model):
     STATUS_CHOICES = (
         ('A', 'Ativo'),
         ('P', 'Processando'),
-        ('I', 'Invativo')
+        ('I', 'Inativo')
     )
 
     gateway_beacon = models.ForeignKey(GatewayBeaconModel, on_delete=models.DO_NOTHING)
