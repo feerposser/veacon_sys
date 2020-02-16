@@ -27,7 +27,7 @@ class WatchpostModel(models.Model):
     rssi_far = models.FloatField(null=True, blank=True, help_text="RSSI mais distante", verbose_name="RSSI distante")
     rssi_near = models.FloatField(null=True, blank=True, help_text="RSSI mais próximo", verbose_name="RSSI próximo")
     obs = models.TextField(null=True, blank=True)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     last_update = models.DateTimeField(null=True, blank=True, help_text="Não mexer")
 
     def __str__(self):
@@ -76,11 +76,23 @@ class WatchpostModel(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        """Publica o monitoramento no canal pub sub do veacon e persiste os dados no banco"""
+        """
+        Publica o monitoramento no canal pub sub do veacon e persiste os dados no banco.
+        Se o status for A significa que já foi ativo, então não precisa avisar o gateway
+        """
 
-        PubSubManager().publish_in_gateway_channel(self.id, self.beacon.eddy_namespace,
-                                                   self.gateway_beacon.id, self.status)
+        if self.status != "A":
+            PubSubManager().publish_in_gateway_channel(self.id, self.beacon.eddy_namespace,
+                                                       self.gateway_beacon.id, self.status)
+
         super(WatchpostModel, self).save()
+
+    def delete(self, using=None, keep_parents=False):
+        """ Ao invés de deletar, vamos apenas setar para I o status. """
+        if self.status == "A":
+            self.status = "I"
+
+        self.save()
 
     class Meta:
         verbose_name = "Monitoramento"
